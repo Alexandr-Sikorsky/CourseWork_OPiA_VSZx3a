@@ -9,7 +9,7 @@
 using namespace std;
 
 class Client : public Entity {
-protected:
+public:
 	string name;
 	//EntityVec wallets;
 	vector<Wallet*> vWallets;
@@ -18,8 +18,8 @@ public:
 	Client(string id, string name);
 	void addWallet(Wallet* wallet);
 	double getTotalBalance();
-	virtual double calculateCommission(double amount) = 0;
-	virtual double getMaxTransactionLimit() = 0;
-	string get_id() { return id; };
-	virtual ~Client() = 0;
+	// virtual double calculateCommission(double amount) = 0;
+	// virtual double getMaxTransactionLimit() = 0;
+	string get_id();
+	~Client();
 };

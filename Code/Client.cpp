@@ -19,3 +19,9 @@ double Client::getTotalBalance() {
 	}
 	return total_balance;
 }
+
+string Client::get_id(){
+	return this->id;
+}
+
+Client::~Client(){}

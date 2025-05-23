@@ -1,15 +1,13 @@
 #include <iostream>
 
 #include "#libEntity.h"
-#include "#libEntityVec.h"
+// #include "#libEntityVec.h"
 
 #include "#libWallet.h"
 // #include "#libTransact.h"
-// #include "#libClient.h"
+#include "#libClient.h"
 
-// #include "#libStandartCl.h"
-// #include "#libGoldCl.h"
-// #include "#libPlatinumCl.h"
+#include "#libTypesClient.h"
 
 // #include "#libClientNode.h"
 // #include "#libClientBTS.h"
@@ -26,7 +24,7 @@ int main() {
 
     //PROVERKA ENTITY i ENTITYVEC
 
-    EntityVec vect;
+    //EntityVec vect;
 
 
     //takie operacii nevozmozshni dlya abstractnih classov!!!
@@ -38,13 +36,13 @@ int main() {
     // vect.addEntity(ent2);
 
 
-    vect.getEntity("123");
-    vect.getEntity("666");
+    // vect.getEntity("123");
+    // vect.getEntity("666");
 
-    vect.getAllEntities(); //not print, but not error - good. navernoe dalshe prigoditsa
+    // vect.getAllEntities(); //not print, but not error - good. navernoe dalshe prigoditsa
 
-    vect.removeEntity("123"); 
-    vect.removeEntity("555");
+    // vect.removeEntity("123"); 
+    // vect.removeEntity("555");
 
     //PROVERKA WALLET
 
@@ -61,6 +59,7 @@ int main() {
     cout<<"New balance of zerowal: "<<zerowal.get_balance()<<endl;
     cout<<"ID of zerowal: "<<zerowal.get_id()<<endl;
 
+    GoldClient vas("3333", "vasyan");
 
     return 0;
 }
