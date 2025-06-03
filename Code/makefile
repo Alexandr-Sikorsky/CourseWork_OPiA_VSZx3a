@@ -1,7 +1,7 @@
 all: main
 
-main: main.cpp Entity.cpp Wallet.cpp Client.cpp TypesClient.cpp
-	g++ main.cpp Entity.cpp Wallet.cpp Client.cpp TypesClient.cpp -o main 
+main: main.cpp Entity.cpp Wallet.cpp Client.cpp TypesClient.cpp Transact.cpp
+	g++ main.cpp Entity.cpp Wallet.cpp Client.cpp TypesClient.cpp Transact.cpp -o main 
 
 run: main
 	main.exe

@@ -1,16 +1,12 @@
 #include <iostream>
 
 #include "#libEntity.h"
-#include "#libEntityVec.h"
+// #include "#libEntityVec.h"
 
 #include "#libWallet.h"
-// #include "#libTransact.h"
+#include "#libTransact.h"
 #include "#libClient.h"
 #include "#libTypesClient.h"
-
-// #include "#libStandartCl.h"
-// #include "#libGoldCl.h"
-// #include "#libPlatinumCl.h"
 
 // #include "#libClientNode.h"
 // #include "#libClientBTS.h"
@@ -34,7 +30,7 @@ int main() {
 
     //PROVERKA ENTITY i ENTITYVEC
 
-    EntityVec vect;
+    //EntityVec vect;
 
 
     //takie operacii nevozmozshni dlya abstractnih classov!!!
@@ -46,19 +42,19 @@ int main() {
     // vect.addEntity(ent2);
 
 
-    vect.getEntity("123");
-    vect.getEntity("666");
+    // vect.getEntity("123");
+    // vect.getEntity("666");
 
-    vect.getAllEntities(); //not print, but not error - good. navernoe dalshe prigoditsa
+    // vect.getAllEntities(); //not print, but not error - good. navernoe dalshe prigoditsa
 
-    vect.removeEntity("123"); 
-    vect.removeEntity("555");
+    // vect.removeEntity("123"); 
+    // vect.removeEntity("555");
 
     //PROVERKA WALLET
 
     cout<<"--------------------------------------------------------------------------"<<endl;
 
-    Wallet zerowal("300012", 5000, "66666");
+    Wallet zerowal("000000", 5000, "66666");
 
     zerowal.withdraw(47777);
     zerowal.deposit(-90);
@@ -77,5 +73,13 @@ int main() {
     TestClient(&kiril);
     PlatinumClient PL("10003", "Polly");
     TestClient(&PL);
+    
+    cout << "--------------------------------------------------------------------------" << endl;
+    // TRANSACT's tests
+    Wallet onewal("000001", 9000, "77777");
+
+    Transaction tr1("tr_1", zerowal.get_id(), onewal.get_id(), 560, TxType::TRANSFER, 56);
+    cout<<"INFO ABOUT TRANSACTION: "<<tr1.getDetails()<<endl;
+
     return 0;
 }

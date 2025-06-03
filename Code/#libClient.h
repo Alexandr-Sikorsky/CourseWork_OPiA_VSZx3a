@@ -1,28 +1,26 @@
 #pragma once
 
-#include "#libClient.h"
+#include "#libEntity.h"
+//#include "#libEntityVec.h"
+#include "#libWallet.h"
+#include <string>
+#include <vector>
 
 using namespace std;
 
+class Client : public Entity {
+public:
+	string name;
+	//EntityVec wallets;
+	vector<Wallet*> vWallets;
 
-class GoldClient : public Client {
 public:
-	GoldClient(string id, string name) : Client(id, name) { };
-	virtual double calculateCommission(double amount) { return amount * 0.01; };
-	virtual double getMaxTransactionLimit() { return 10000; };
-	virtual string getBenefits() { return "Priority processing, low fees"; };
-};
-class PlatinumClient : public Client {
-public:
-	PlatinumClient(string id, string name) : Client(id, name) { };
-	virtual double calculateCommission(double amount) { return amount * 0.02; };
-	virtual double getMaxTransactionLimit() { return 5000; };
-	virtual string getBenefits() { return "Bonus rewards, moderate fees"; };
-};
-class StandardClient: public Client {
-public:
-	StandardClient(string id, string name) : Client(id, name) { };
-	virtual double calculateCommission(double amount) { return amount * 0.05; };
-	virtual double getMaxTransactionLimit() { return 1000; };
-	virtual string getBenefits() { return "Standard access"; };
+	Client(string id, string name);
+	void addWallet(Wallet* wallet);
+	double getTotalBalance();
+	virtual double calculateCommission(double amount) = 0;
+	virtual double getMaxTransactionLimit() = 0;
+	virtual string getBenefits() = 0;
+	string get_id();
+	~Client();
 };
