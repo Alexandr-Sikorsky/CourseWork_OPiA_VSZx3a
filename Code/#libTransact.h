@@ -5,9 +5,9 @@
 using namespace std;
 
 enum class TxType{
-    TRANSFER,    // Перевод
-    DEPOSIT,     // Внесение наличных
-    WITHDRAWAL  // Снятие наличных
+    TRANSFER,    // Perevod
+    DEPOSIT,     // Vnesenie nal
+    WITHDRAWAL  // Snyatie nal
 };
 
 class Transaction : public Entity{
