@@ -11,8 +11,8 @@
 // #include "#libClientNode.h"
 // #include "#libClientBTS.h"
 
-// #include "#libTransactNode.h"
-// #include "#libTransactList.h"
+#include "#libTransactNode.h"
+#include "#libTransactList.h"
 
 // #include "#libBlockchain.h"
 
@@ -78,8 +78,30 @@ int main() {
     // TRANSACT's tests
     Wallet onewal("000001", 9000, "77777");
 
-    Transaction tr1("tr_1", zerowal.get_id(), onewal.get_id(), 560, TxType::TRANSFER, 56);
-    cout<<"INFO ABOUT TRANSACTION: "<<tr1.getDetails()<<endl;
+    Transaction* tr1 = new Transaction("tr_1", zerowal.get_id(), onewal.get_id(), 560, TxType::TRANSFER, 56);
+    cout<<"INFO ABOUT TRANSACTION: "<<tr1->getDetails()<<endl;
+
+
+    cout << "--------------------------------------------------------------------------" << endl;
+    //TR LISTS
+    TransactionList trsp1;
+
+    Transaction* tr2 = new Transaction("tr_2", onewal.get_id(), "CASH", 600, TxType::DEPOSIT, 6);
+    trsp1.addTransaction(tr1);
+    trsp1.addTransaction(tr2);
+    trsp1.displayTransactions();
+    bool exist = trsp1.removeTransaction("tr_1");
+    if (exist) {
+        cout << "\ntr1 deleted!\n";
+    } else {
+        cout << "\ntr1 not defined!\n";
+    }
+    trsp1.displayTransactions();
+
+
+
+
+
 
     return 0;
 }
