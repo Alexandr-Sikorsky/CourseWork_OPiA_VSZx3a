@@ -3,11 +3,9 @@
 using namespace std;
 
 class Entity{
-    private:
+    protected:
         string id;
-        friend class Transaction; 
-        friend class Wallet; 
-        friend class Client; 
+
     public:
         //Entity();
         Entity(string id); //!!!
