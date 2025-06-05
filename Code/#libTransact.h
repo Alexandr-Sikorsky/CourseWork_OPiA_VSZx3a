@@ -11,12 +11,14 @@ enum class TxType{
 };
 
 class Transaction : public Entity{
-    public:
+    private:
         string senderWalletId;
         string recipientWalletId;
         double amount;
         TxType type;
         double commission;
+        friend class Blockchain;
+        friend class TransactionNode;
     public:
         Transaction(string id, string senderWalletId, string recipientWalletId, double amount, TxType type, double commission);
         string get_id();

@@ -6,7 +6,7 @@ using namespace std;
 
 class TransactionList{
 
-    public:
+    private:
         TransactionNode* head;
         TransactionNode* tail;
         int size;

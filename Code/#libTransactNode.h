@@ -7,11 +7,11 @@ class TransactionList;
 
 class TransactionNode{
 
-    public:
+    private:
         Transaction* data;
         TransactionNode* prev;
         TransactionNode* next;
-
+        friend class TransactionList;
     public:
         TransactionNode(Transaction*);
         ~TransactionNode();
