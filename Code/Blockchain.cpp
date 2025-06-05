@@ -14,12 +14,15 @@ bool Blockchain::processTransaction(Transaction* tx) {
 	if (tx->amount <= 0 || tx->commission <= 0) {
 		return false;
 	}
+	if (clients.find(tx->senderWalletId) != nullptr &&
+		(tx->amount > clients.find(tx->senderWalletId)->getMaxTransactionLimit())) {
+		return false;
+	}
 
 	switch (tx->type)
 	{
 	case TxType::TRANSFER:
 		if (tx->senderWalletId != tx->recipientWalletId &&
-			clients.find(tx->senderWalletId) != nullptr &&
 			clients.find(tx->recipientWalletId) != nullptr) {
 			transactions.addTransaction(tx);
 			return true;
@@ -29,8 +32,7 @@ bool Blockchain::processTransaction(Transaction* tx) {
 		}
 		break;
 	case TxType::DEPOSIT:
-		if (tx->senderWalletId == tx->recipientWalletId &&
-			clients.find(tx->senderWalletId) != nullptr) {
+		if (tx->senderWalletId == tx->recipientWalletId) {
 			transactions.addTransaction(tx);
 			return true;
 		}
@@ -39,8 +41,7 @@ bool Blockchain::processTransaction(Transaction* tx) {
 		}
 		break;
 	case TxType::WITHDRAWAL:
-		if (tx->senderWalletId == tx->recipientWalletId &&
-			clients.find(tx->senderWalletId) != nullptr) {
+		if (tx->senderWalletId == tx->recipientWalletId) {
 			transactions.addTransaction(tx);
 			return true;
 		}
