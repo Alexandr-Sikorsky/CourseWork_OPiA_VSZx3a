@@ -3,10 +3,9 @@
 #include "#libClientNode.h"
 
 class ClientBST {
-public:
+private:
 	ClientNode* root;
 
-private:
 	void insertNode(ClientNode *&current, Client* client);
 	ClientNode* removeNode(ClientNode*& current, string id);
 	ClientNode* findNode(ClientNode *current, string id);
