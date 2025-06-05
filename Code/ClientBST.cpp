@@ -89,6 +89,6 @@ void ClientBST::showTree(const ClientNode* current) {
 		return;
 
 	showTree(current->left);
-	cout << current->data->get_id() << '\t' << current->data->name << '\n';
+	cout << current->data->get_id() << '\t' << current->data->get_name() << '\n';
 	showTree(current->right);
 }
