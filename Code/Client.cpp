@@ -11,6 +11,7 @@ Client::Client(string id, string name):
 	this->type = CLIENTTYPE_NONE;
 }
 void Client::addWallet(Wallet* wallet) {
+	wallet->set_owner_id(id);
 	vWallets.push_back(wallet);
 }
 double Client::getTotalBalance() {
