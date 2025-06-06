@@ -6,7 +6,7 @@
 using namespace std;
 
 
-void Blockchain::writeClientNode(ClientNode* currentNode, string path) {
+void Blockchain::writeClientNode(ClientNode* currentNode, string path) { // Вот здесь currentNode становится мусором
 	ofstream out;
 	out.open(savefileClients, ios_base::app);
 	Client* currentClient = currentNode->data;
@@ -170,7 +170,7 @@ Blockchain::~Blockchain() {
 	out.close();
 	out.open(savefileTransactions);
 	if (out.is_open()) {
-		writeTransactionList(transactions.head, savefileTransactions);
+		writeTransactionList(transactions.head, savefileTransactions); // Здесь transactions.head имеет нормальные значения
 	}
 	out.close();
 }
