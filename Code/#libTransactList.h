@@ -4,19 +4,20 @@
 
 using namespace std;
 
-class TransactionList{
+class TransactionList {
 
-    private:
-        TransactionNode* head;
-        TransactionNode* tail;
-        int size;
+private:
+    TransactionNode* head;
+    TransactionNode* tail;
+    int size;
+    friend class Blockchain;
 
-    public:
-        TransactionList();
-        ~TransactionList();
+public:
+    TransactionList();
+    ~TransactionList();
 
-        void addTransaction(Transaction* tx);
-        bool removeTransaction(string id);  
-        Transaction* getTransaction(string id);  
-        void displayTransactions(); 
+    void addTransaction(Transaction* tx);
+    bool removeTransaction(string id);
+    Transaction* getTransaction(string id);
+    void displayTransactions();
 };
