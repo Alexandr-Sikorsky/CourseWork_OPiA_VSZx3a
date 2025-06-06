@@ -27,7 +27,7 @@ void TestClient(Client* p) {
 
 int main() {
 
-    //PROVERKA ENTITY i ENTITYVEC
+    ////PROVERKA ENTITY i ENTITYVEC
 
     //EntityVec vect;
 
@@ -51,7 +51,7 @@ int main() {
 
     //PROVERKA WALLET
 
-    cout << "--------------------------------------------------------------------------" << endl;
+    //cout << "--------------------------------------------------------------------------" << endl;
 
     Wallet zerowal("000000", 5000, "66666");
 
@@ -74,7 +74,7 @@ int main() {
     TestClient(&PL);
 
     cout << "--------------------------------------------------------------------------" << endl;
-    // TRANSACT's tests
+     //TRANSACT's tests
     Wallet onewal("000001", 9000, "77777");
 
     Transaction* tr1 = new Transaction("tr_1", zerowal.get_id(), onewal.get_id(), 560, TxType::TRANSFER, 56);
@@ -102,7 +102,7 @@ int main() {
     cout << "--------------------------------------------------------------------------" << endl;
     // CLIENT TREE'S TESTS
     ClientBST cTree;
-    StandardClient clients[17] = {
+    GoldClient clients[17] = {
         {"10010", "A"},
         {"10018", "B"},
         {"10053", "DEAD_5"},
@@ -123,6 +123,16 @@ int main() {
 
         { "10054", "NEW_53(4)" }
     };
+
+    Wallet Awal1("90001", 10000, "-");
+    clients[0].addWallet(&Awal1);
+    Wallet Awal2("90002", 1600, "-");
+    clients[1].addWallet(&Awal2);
+    Wallet Awal3("90003", 99, "-");
+    clients[2].addWallet(&Awal3);
+    Wallet Awal4("90004", 2300, "-");
+    clients[3].addWallet(&Awal4);
+
     for (int i = 0; i < 17; i++) {
         cTree.insert(&clients[i]);
     }
@@ -152,11 +162,21 @@ int main() {
 
     cout << "--------------------------------------------------------------------------" << endl;
 
-    Blockchain bc;
-    for (int i = 0; i < 17; i++) {
-        bc.addClient(&clients[i]);
+    {
+        Blockchain bc;
+        for (int i = 0; i < 17; i++) {
+            bc.addClient(&clients[i]);
+        }
+        Transaction* tr1 = new Transaction("101", Awal1.get_id(), Awal2.get_id(), 100, TxType::TRANSFER, 10);    // не работает и ладно
+        Transaction* tr2 = new Transaction("102", Awal2.get_id(), Awal3.get_id(), 1000, TxType::TRANSFER, 100);    // не работает и ладно
+        Transaction* tr3 = new Transaction("103", Awal3.get_id(), Awal3.get_id(), 100, TxType::DEPOSIT, 10);    // работает
+        Transaction* tr4 = new Transaction("104", Awal4.get_id(), Awal4.get_id(), 100, TxType::WITHDRAWAL, 10);    // работает
+        bc.processTransaction(tr1);
+        bc.processTransaction(tr2);
+        bc.processTransaction(tr3);
+        bc.processTransaction(tr4);
+        //bc.displayClients();
     }
-    bc.displayClients();
 
     return 0;
 }
