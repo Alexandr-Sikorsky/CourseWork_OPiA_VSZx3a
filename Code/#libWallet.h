@@ -1,6 +1,7 @@
 #pragma once
 
 #include "#libEntity.h"
+#include "#libClient.h"
 
 using namespace std;
 
@@ -14,7 +15,7 @@ class Wallet: public Entity{
         friend class Transaction;
         friend class Blockchain;
     public:
-        Wallet (string id, double balance, string owner_id);
+        Wallet(string id, double balance, Client& owner);
         //Wallet(const Wallet &wal);
         void deposit (double amount);
         bool withdraw (double amount);
