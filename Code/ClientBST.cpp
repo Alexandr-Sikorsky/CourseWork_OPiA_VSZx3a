@@ -2,6 +2,7 @@
 
 #include "#libClientBST.h"
 
+
 using namespace std;
 
 
@@ -77,7 +78,7 @@ ClientNode* ClientBST::findNode(ClientNode* current, string id) {
 	else if (current->data->get_id() == id) {
 		return current;
 	}
-	else if (current->data->get_id() < id) {
+	else if (id < current->data->get_id()) {
 		return findNode(current->left, id);
 	}
 	else {
@@ -91,4 +92,23 @@ void ClientBST::showTree(const ClientNode* current) {
 	showTree(current->left);
 	cout << current->data->get_id() << '\t' << current->data->get_name() << '\n';
 	showTree(current->right);
+}
+
+bool ClientBST::remove(string id) {
+	if (findNode(root, id) != nullptr) {
+		removeNode(root, id);
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+Client* ClientBST::find(string id) {
+	ClientNode* p = findNode(root, id);
+	if (p != nullptr) {
+		return p->data;
+	}
+	else {
+		return NULL;
+	}
 }
