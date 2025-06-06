@@ -11,6 +11,8 @@ private:
 	ClientNode* findNode(ClientNode *current, string id);
 	void showTree(const ClientNode* current);
 
+	friend class Blockchain;
+
 public:
 	ClientBST() { root = nullptr; };
 	void insert(Client* client) { insertNode(root, client); };
