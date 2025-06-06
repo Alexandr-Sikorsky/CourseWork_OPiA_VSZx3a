@@ -167,10 +167,10 @@ int main() {
         for (int i = 0; i < 17; i++) {
             bc.addClient(&clients[i]);
         }
-        Transaction* tr1 = new Transaction("101", Awal1.get_id(), Awal2.get_id(), 100, TxType::TRANSFER, 10);    // не работает и ладно
-        Transaction* tr2 = new Transaction("102", Awal2.get_id(), Awal3.get_id(), 1000, TxType::TRANSFER, 100);    // не работает и ладно
-        Transaction* tr3 = new Transaction("103", Awal3.get_id(), Awal3.get_id(), 100, TxType::DEPOSIT, 10);    // работает
-        Transaction* tr4 = new Transaction("104", Awal4.get_id(), Awal4.get_id(), 100, TxType::WITHDRAWAL, 10);    // работает
+        Transaction* tr1 = new Transaction("101", Awal1.get_id(), Awal2.get_id(), 100, TxType::TRANSFER, 10);
+        Transaction* tr2 = new Transaction("102", Awal2.get_id(), Awal3.get_id(), 1000, TxType::TRANSFER, 100);
+        Transaction* tr3 = new Transaction("103", Awal3.get_id(), Awal3.get_id(), 100, TxType::DEPOSIT, 10);
+        Transaction* tr4 = new Transaction("104", Awal4.get_id(), Awal4.get_id(), 100, TxType::WITHDRAWAL, 10);
         bc.processTransaction(tr1);
         bc.processTransaction(tr2);
         bc.processTransaction(tr3);
