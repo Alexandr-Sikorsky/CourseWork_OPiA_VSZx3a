@@ -6,7 +6,7 @@
 using namespace std;
 
 
-void Blockchain::writeClientNode(ClientNode* currentNode, string path) { // Вот здесь currentNode становится мусором
+void Blockchain::writeClientNode(ClientNode* currentNode, string path) {
 	ofstream out;
 	out.open(savefileClients, ios_base::app);
 	Client* currentClient = currentNode->data;
@@ -29,7 +29,7 @@ void Blockchain::writeClientNode(ClientNode* currentNode, string path) { // Во
 }
 void Blockchain::writeTransactionList(TransactionNode* currentNode, string path) {
 	ofstream out;
-	out.open(savefileClients, ios_base::app);
+	out.open(savefileTransactions, ios_base::app);
 
 	if (currentNode != nullptr) {
 		Transaction* currentTransact = currentNode->data;
@@ -37,14 +37,14 @@ void Blockchain::writeTransactionList(TransactionNode* currentNode, string path)
 		out << currentTransact->senderWalletId << 's' << endl;
 		out << currentTransact->recipientWalletId << 'r' << endl;
 		out << currentTransact->amount << 'a' << endl;
-		out << currentTransact->get_type() << 't' << endl;
 		out << currentTransact->commission << 'c' << endl;
+		out << currentTransact->get_type() << 't' << endl;
 		out << endl;
 	}
 
 	out.close();
 
-	if (currentNode->next != nullptr)
+	if (currentNode != nullptr && currentNode->next != nullptr)
 		writeTransactionList(currentNode->next, path);
 }
 
@@ -53,9 +53,9 @@ Blockchain::Blockchain(string cpath, string tpath) {
 	savefileClients = cpath;
 	savefileTransactions = tpath;
 
-	ifstream in;
-	in.open(savefileClients);
-	if (in.is_open()) {
+	ifstream inc;
+	inc.open(savefileClients);
+	if (inc.is_open()) {
 		string s = "";
 
 		Client* lastClient = nullptr;
@@ -65,9 +65,8 @@ Blockchain::Blockchain(string cpath, string tpath) {
 		Wallet* lastWallet = nullptr;
 		string setup_wallet_id = "-";
 
-		while (getline(in, s)) {
+		while (getline(inc, s)) {
 			if (s.size() < 1) {
-				cout << lastClient->get_name() << '\t' << lastClient->get_max_n_wallets() << endl;
 				this->addClient(lastClient);
 				continue;
 			}
@@ -99,6 +98,57 @@ Blockchain::Blockchain(string cpath, string tpath) {
 			case 'b':		// wallet balance + creation of wallet
 				lastWallet = new Wallet(setup_wallet_id, stod(s), "-");
 				lastClient->addWallet(lastWallet);
+				break;
+			default:
+				break;
+			}
+		}
+	}
+
+	ifstream intr;
+	intr.open(savefileTransactions);
+	if (intr.is_open()) {
+		string s = "";
+
+		string setup_id = "";
+		string setup_sender_w_id = "";
+		string setup_recipient_w_id = "";
+		double setup_amount = 0.0;
+		double setup_commission = 0.0;
+		while (getline(intr, s)) {
+			if (s.size() < 1) {
+				continue;
+			}
+
+			char si = s.back();	// string identifier
+			s.pop_back();
+			switch (si)
+			{
+			case 'i':		// client id
+				setup_id = s;
+				break;
+			case 's':		// sender wallet id
+				setup_sender_w_id = s;
+				break;
+			case 'r':		// recipient wallet id
+				setup_recipient_w_id = s;
+				break;
+			case 'a':		// amount
+				setup_amount = stod(s);
+				break;
+			case 'c':		// commission
+				setup_commission = stod(s);
+				break;
+			case 't':		// client type
+				if (s == "t") {
+					this->processTransaction(new Transaction(setup_id, setup_sender_w_id, setup_recipient_w_id, setup_amount, TxType::TRANSFER, setup_commission));
+				}
+				else if (s == "d") {
+					this->processTransaction(new Transaction(setup_id, setup_sender_w_id, setup_recipient_w_id, setup_amount, TxType::DEPOSIT, setup_commission));
+				}
+				else if (s == "w") {
+					this->processTransaction(new Transaction(setup_id, setup_sender_w_id, setup_recipient_w_id, setup_amount, TxType::WITHDRAWAL, setup_commission));
+				}
 				break;
 			default:
 				break;
@@ -162,15 +212,17 @@ void Blockchain::displayTransactions() {
 	transactions.displayTransactions();
 }
 Blockchain::~Blockchain() {
-	ofstream out;
-	out.open(savefileClients);
-	if (out.is_open()) {
+	ofstream outc;
+	outc.open(savefileClients);
+	if (outc.is_open()) {
 		writeClientNode(clients.root, savefileClients);
 	}
-	out.close();
-	out.open(savefileTransactions);
-	if (out.is_open()) {
-		writeTransactionList(transactions.head, savefileTransactions); // Здесь transactions.head имеет нормальные значения
+	outc.close();
+
+	ofstream outt;
+	outt.open(savefileTransactions);
+	if (outt.is_open()) {
+		writeTransactionList(transactions.head, savefileTransactions);
 	}
-	out.close();
+	outt.close();
 }
