@@ -102,7 +102,7 @@ int main() {
     // TestClient(&carl);
 
     //cout << "--------------------------------------------------------------------------" << endl;
-    // //TRANSACTION'S TESTS
+    //TRANSACTION'S TESTS
     // Wallet unowal("100001", 6000, "77771");
     // Wallet onewal("000001", 9000, "77777");
 
@@ -179,7 +179,7 @@ int main() {
     //     { "10054", "NEW_53(4)" }
     // };
 
-    Wallet Awal1("90001", 10000, clients[0].get_id());
+    Wallet Awal1("90001", 10000, "-");
     clients[0].addWallet(&Awal1);
     Wallet Awal2("90002", 1600, "-");
     clients[1].addWallet(&Awal2);
@@ -223,23 +223,20 @@ int main() {
             bc.addClient(&clients[i]);
         }
         Transaction* tr1 = new Transaction("101", Awal1.get_id(), Awal2.get_id(), 100, TxType::TRANSFER, 1);
-        Transaction* tr2 = new Transaction("102", Awal2.get_id(), Awal3.get_id(), 1000, TxType::TRANSFER, 10);
-        Transaction* tr3 = new Transaction("103", Awal3.get_id(), Awal3.get_id(), 100, TxType::DEPOSIT, 1);
-        Transaction* tr4 = new Transaction("104", Awal4.get_id(), Awal4.get_id(), 100, TxType::WITHDRAWAL, 1);
-
+        Transaction* tr2 = new Transaction("102", Awal3.get_id(), Awal3.get_id(), 100, TxType::DEPOSIT, 1);
+        Transaction* tr3 = new Transaction("103", Awal4.get_id(), Awal4.get_id(), 100, TxType::WITHDRAWAL, 1);
+        Transaction* tr4 = new Transaction("104", Awal1.get_id(), Awal2.get_id(), -3, TxType::TRANSFER, 3); //sum<0
+        Transaction* tr5 = new Transaction("105", Awal1.get_id(), Awal4.get_id(), 578, TxType::TRANSFER, -77); //commission<0
         bc.processTransaction(tr1);
         bc.processTransaction(tr2);
         bc.processTransaction(tr3);
-        bc.processTransaction(tr4);
+        bool result1 = bc.processTransaction(tr4);
+        cout << "Amount of tr4 < 0: " << (result1 ? "Written to file" : "Writing to file cancelled") << endl;
+        bool result2 = bc.processTransaction(tr5);
+        cout << "Commission of tr5 < 0: " << (result2 ? "Written to file" : "Writing to file cancelled") << endl;
         bc.displayClients();
-
-        // Transaction* zeroTx = new Transaction("105", Awal1.get_id(), Awal2.get_id(), 0, TxType::TRANSFER, 0); //zero sum
-        // bool result = bc.processTransaction(zeroTx);
-        // cout << "Zero amount transaction should fail: " << (result ? "FAIL" : "PASS") << endl;
-
-        // Transaction* invalidTx = new Transaction("107", "invalid_id", "another_invalid", 100, TxType::TRANSFER, 10); //non-existent wallet
-        // result = bc.processTransaction(invalidTx);
-        // cout << "Transaction with invalid wallet IDs should fail: " << (result ? "FAIL" : "PASS") << endl;
+        cout<<"---------------------------------------------------"<<endl;
+        bc.displayTransactions();
     }
 
 

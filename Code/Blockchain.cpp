@@ -159,7 +159,6 @@ void Blockchain::addClient(Client* client) {
 	clients.insert(client);
 }
 bool Blockchain::processTransaction(Transaction* tx) {
-	//original
 	if (tx->amount <= 0 || tx->commission <= 0) {
 		return false;
 	}
@@ -169,18 +168,43 @@ bool Blockchain::processTransaction(Transaction* tx) {
 		return false;
 	}
 	
+    if (tx->commission <= 0) {
+        return false;
+    }
+
+    if (tx->type != TxType::DEPOSIT && tx->commission >= tx->amount) {
+        return false;
+    }
+
 		switch (tx->type)
 	{
 	case TxType::TRANSFER:
-		if (tx->senderWalletId != tx->recipientWalletId &&
-			clients.find(tx->recipientWalletId) != nullptr) {
-			transactions.addTransaction(tx);
-			return true;
-		}
-		else {
-			return false;
-		}
-		break;
+		if (tx->senderWalletId != tx->recipientWalletId) {
+			Client* sender = nullptr;
+			for (int i = 0; i < clients.root->data->get_max_n_wallets(); i++) {
+				if (clients.root->data->get_wallet_at(i)->get_id() == tx->senderWalletId) {
+					sender = clients.root->data;
+					break;
+				}
+			}
+			if (sender) {
+				transactions.addTransaction(tx);
+				ofstream out(savefileTransactions, ios::app);
+				out << tx->get_id() << 'i' << endl
+					<< tx->senderWalletId << 's' << endl
+					<< tx->recipientWalletId << 'r' << endl
+					<< tx->amount << 'a' << endl
+					<< tx->commission << 'c' << endl
+					<< static_cast<char>(tx->type) << 't' << endl << endl;
+				out.close();
+				
+				return true;
+				break;
+        }
+    }
+	else{
+    	return false;
+    	break;}
 	case TxType::DEPOSIT:
 		if (tx->senderWalletId == tx->recipientWalletId) {
 			transactions.addTransaction(tx);
@@ -206,115 +230,6 @@ bool Blockchain::processTransaction(Transaction* tx) {
 	}
 	return false;
 }
-
-
-//2 VARIANT - NE RABOTAET - NO ZATO NET OSHIBOK B POWERSHELL
-
-// 	if (tx->amount <= 0 || tx->commission <= 0) {
-// 		return false;
-// 	}
-// 	double expectedCommission = clients.find(tx->senderWalletId)->calculateCommission(tx->amount);
-// 	if (clients.find(tx->senderWalletId) != nullptr &&
-// 		(tx->amount > clients.find(tx->senderWalletId)->getMaxTransactionLimit() && (tx->commission - expectedCommission) == 0)) {
-// 		return false;
-// 	}
-// 	switch (tx->type)
-// 	{
-// 	case TxType::TRANSFER:
-// 		if (tx->senderWalletId != tx->recipientWalletId &&
-// 			clients.find(tx->recipientWalletId) != nullptr) {
-// 			transactions.addTransaction(tx);
-// 			return true;
-// 		}
-// 		else {
-// 			return false;
-// 		}
-// 		break;
-// 	case TxType::DEPOSIT:
-// 		if (tx->senderWalletId == tx->recipientWalletId) {
-// 			transactions.addTransaction(tx);
-// 			return true;
-// 		}
-// 		else {
-// 			return false;
-// 		}
-// 		break;
-// 	case TxType::WITHDRAWAL:
-// 		if (tx->senderWalletId == tx->recipientWalletId) {
-// 			transactions.addTransaction(tx);
-// 			return true;
-// 		}
-// 		else {
-// 			return false;
-// 		}
-// 		break;
-// 	default:
-// 		cout << "ERROR" << endl;
-// 		return false;
-// 		break;
-// 	}
-// 	return false;
-// }
-
-
-//DRUGOY VARIANT - TOZHE NE RABOTAET - NO ZATO NET OSHIBOK B POWERSHELL
-
-
-// bool Blockchain::processTransaction(Transaction* tx) {
-//     // 1. Базовые проверки
-//     if (tx->amount <= 0 || tx->commission < 0) {
-//         cerr << "Invalid amount or commission" << endl;
-//         return false;
-//     }
-
-//     // 2. Находим клиента-отправителя
-//     Client* sender = clients.find(tx->senderWalletId);
-//     if (!sender) {
-//         cerr << "Sender not found for wallet: " << tx->senderWalletId << endl;
-//         return false;
-//     }
-
-//     // 3. Проверка типа операции
-//     switch(tx->type) {
-//         case TxType::DEPOSIT:
-//         case TxType::WITHDRAWAL:
-//             if (tx->senderWalletId != tx->recipientWalletId) {
-//                 cerr << "DEPOSIT/WITHDRAWAL must use same wallet" << endl;
-//                 return false;
-//             }
-//             break;
-            
-//         case TxType::TRANSFER:
-//             if (tx->senderWalletId == tx->recipientWalletId) {
-//                 cerr << "TRANSFER requires different wallets" << endl;
-//                 return false;
-//             }
-//             if (!clients.find(tx->recipientWalletId)) {
-//                 cerr << "Recipient not found" << endl;
-//                 return false;
-//             }
-//             break;
-//     }
-
-//     // 4. Если все проверки пройдены - сохраняем в файл
-//     ofstream out(savefileTransactions, ios::app);
-//     if (!out.is_open()) {
-//         cerr << "Failed to open transactions file" << endl;
-//         return false;
-//     }
-
-//     out << tx->get_id() << 'i' << endl;
-//     out << tx->senderWalletId << 's' << endl;
-//     out << tx->recipientWalletId << 'r' << endl;
-//     out << tx->amount << 'a' << endl;
-//     out << tx->commission << 'c' << endl;
-//     out << static_cast<char>(tx->type) << 't' << endl;
-//     out << endl;
-//     out.close();
-
-//     // 5. Добавляем в память
-//     transactions.addTransaction(tx);
-//     return true;}
 
 
 
