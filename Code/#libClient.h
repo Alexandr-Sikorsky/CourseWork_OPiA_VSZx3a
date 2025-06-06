@@ -48,7 +48,7 @@ public:
 			break;
 		}
 	}
-	Wallet* get_wallet_at(int n) { return vWallets[n]; }
-	int get_max_n_wallets() { return vWallets.size(); }
+	Wallet* get_wallet_at(int n) { return vWallets[n]; };
+	int get_max_n_wallets() { return static_cast<int>(vWallets.size()); };
 	~Client() { };
 };
