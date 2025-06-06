@@ -5,10 +5,10 @@
 
 using namespace std;
 
-Wallet::Wallet (string id, double balance, string owner_id):
-    Entity(id){
-        this->balance = balance;
-        this->owner_id = owner_id;
+Wallet::Wallet(string id, double balance, Client& owner) :
+    Entity(id) {
+    this->balance = balance;
+    this->owner_id = owner.get_id();
 }
 
 // Wallet::Wallet (const Wallet &wal):
