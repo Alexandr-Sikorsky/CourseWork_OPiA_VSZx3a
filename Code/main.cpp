@@ -9,18 +9,17 @@
 #include "#libTypesClient.h"
 
 #include "#libClientNode.h"
-#include "#libClientBTS.h"
+#include "#libClientBST.h"
 
 #include "#libTransactNode.h"
 #include "#libTransactList.h"
 
-// #include "#libBlockchain.h"
-
+#include "#libBlockchain.h"
 
 using namespace std;
 
 void TestClient(Client* p) {
-    cout << "id: " << p->id << '\t' << "Name: " << p->name << endl;
+    cout << "id: " << p->get_id() << '\t' << "Name: " << p->get_name() << endl;
     cout << "Commision (1000): " << p->calculateCommission(1000) << endl;
     cout << "Max transaction: " << p->getMaxTransactionLimit() << endl;
     cout << p->getBenefits() << endl;
@@ -37,7 +36,7 @@ int main() {
 
     // Entity* ent1 = new Entity("123");
     // vect.addEntity(ent1);
-    
+
     // Entity* ent2 = new Entity("234");
     // vect.addEntity(ent2);
 
@@ -52,18 +51,18 @@ int main() {
 
     //PROVERKA WALLET
 
-    cout<<"--------------------------------------------------------------------------"<<endl;
+    cout << "--------------------------------------------------------------------------" << endl;
 
     Wallet zerowal("000000", 5000, "66666");
 
     zerowal.withdraw(47777);
     zerowal.deposit(-90);
 
-    cout<<"Balance of zerowal: "<<zerowal.get_balance()<<endl;
+    cout << "Balance of zerowal: " << zerowal.get_balance() << endl;
     zerowal.deposit(90);
     zerowal.withdraw(81);
-    cout<<"New balance of zerowal: "<<zerowal.get_balance()<<endl;
-    cout<<"ID of zerowal: "<<zerowal.get_id()<<endl;
+    cout << "New balance of zerowal: " << zerowal.get_balance() << endl;
+    cout << "ID of zerowal: " << zerowal.get_id() << endl;
 
     cout << "--------------------------------------------------------------------------" << endl;
     // CLIENT'S TESTS
@@ -73,13 +72,13 @@ int main() {
     TestClient(&kiril);
     PlatinumClient PL("10003", "Polly");
     TestClient(&PL);
-    
+
     cout << "--------------------------------------------------------------------------" << endl;
     // TRANSACT's tests
     Wallet onewal("000001", 9000, "77777");
 
     Transaction* tr1 = new Transaction("tr_1", zerowal.get_id(), onewal.get_id(), 560, TxType::TRANSFER, 56);
-    cout<<"INFO ABOUT TRANSACTION: "<<tr1->getDetails()<<endl;
+    cout << "INFO ABOUT TRANSACTION: " << tr1->getDetails() << endl;
 
 
     cout << "--------------------------------------------------------------------------" << endl;
@@ -93,16 +92,17 @@ int main() {
     bool exist = trsp1.removeTransaction("tr_1");
     if (exist) {
         cout << "\ntr1 deleted!\n";
-    } else {
+    }
+    else {
         cout << "\ntr1 not defined!\n";
     }
     trsp1.displayTransactions();
 
 
     cout << "--------------------------------------------------------------------------" << endl;
-     // CLIENT TREE'S TESTS
+    // CLIENT TREE'S TESTS
     ClientBST cTree;
-    StandardClient clients[17] ={
+    StandardClient clients[17] = {
         {"10010", "A"},
         {"10018", "B"},
         {"10053", "DEAD_5"},
@@ -128,31 +128,35 @@ int main() {
     }
     cTree.displayInOrder();
 
+    cout << cTree.remove("10914") << ":\n";
     cout << endl;
-    cTree.remove("10014");
+    cout << cTree.remove("10014") << ":\n";
+    cTree.displayInOrder();
+    cout << cTree.remove("10014") << ":\n";
+
+    cout << endl;
+    cout << cTree.remove("10052") << ":\n";
     cTree.displayInOrder();
 
     cout << endl;
-    cTree.remove("10052");
+    cout << cTree.remove("10024") << ":\n";
     cTree.displayInOrder();
 
     cout << endl;
-    cTree.remove("10024");
+    cout << cTree.remove("10234") << ":\n";
     cTree.displayInOrder();
 
     cout << endl;
-    cTree.remove("10234");
+    cout << cTree.remove("10053") << ":\n";
     cTree.displayInOrder();
 
-    cout << endl;
-    cTree.remove("10053");
-    cTree.displayInOrder();
+    cout << "--------------------------------------------------------------------------" << endl;
 
-
-
-
-
-
+    Blockchain bc;
+    for (int i = 0; i < 17; i++) {
+        bc.addClient(&clients[i]);
+    }
+    bc.displayClients();
 
     return 0;
 }
