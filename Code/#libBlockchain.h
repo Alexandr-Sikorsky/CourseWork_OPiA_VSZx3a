@@ -7,14 +7,16 @@
 
 class Blockchain { 
 private:
-	string savefile;
+	string savefileClients;
+	string savefileTransactions;
 	ClientBST clients;
 	TransactionList transactions;
 
 	void writeClientNode(ClientNode* currentNode, string path);
+	void writeTransactionList(TransactionNode* currentNode, string path);
 
 public:
-	Blockchain(string path = "t.txt");
+	Blockchain(string cpath = "c.txt", string tpath = "t.txt");
 	void addClient(Client* client);
 	bool processTransaction(Transaction* tx);
 	void displayClients();
