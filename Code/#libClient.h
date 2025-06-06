@@ -8,9 +8,17 @@
 
 using namespace std;
 
+enum ClientType {
+	CLIENTTYPE_NONE,
+	CLIENTTYPE_STANDARD,
+	CLIENTTYPE_PLATINUM,
+	CLIENTTYPE_GOLD
+};
+
 class Client : public Entity {
 protected:
 	string name;
+	ClientType type;
 	//EntityVec wallets;
 	vector<Wallet*> vWallets;
 
