@@ -14,8 +14,8 @@ private:
 public:
 	ClientBST() { root = nullptr; };
 	void insert(Client* client) { insertNode(root, client); };
-	bool remove(string id) { removeNode(root, id); return false; };
-	Client* find(string id) { return findNode(root, id)->data; };
+	bool remove(string id);
+	Client* find(string id);
 	void displayInOrder() { return showTree(root); };
 	~ClientBST() {};
 };
