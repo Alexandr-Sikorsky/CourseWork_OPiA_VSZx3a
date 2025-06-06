@@ -9,6 +9,7 @@ private:
 	ClientNode* left;
 	ClientNode* right;
 	friend class ClientBST;
+	friend class Blockchain;
 public:
 	ClientNode(Client* data) { this->data = data; left = nullptr; right = nullptr; };
 	~ClientNode() { left = nullptr; right = nullptr; };
