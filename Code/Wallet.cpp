@@ -9,6 +9,7 @@ Wallet::Wallet(string id, double balance, Client& owner) :
     Entity(id) {
     this->balance = balance;
     this->owner_id = owner.get_id();
+    owner.addWallet(this);
 }
 
 // Wallet::Wallet (const Wallet &wal):
