@@ -8,7 +8,7 @@ using namespace std;
 
 void Blockchain::writeClientNode(ClientNode* currentNode, string path) {
 	ofstream out;
-	out.open(savefile, ios_base::app);
+	out.open(savefileClients, ios_base::app);
 	Client* currentClient = currentNode->data;
 	out << currentClient->get_id() << 'i' << endl;
 	out << currentClient->get_name() << 'n' << endl;
@@ -20,17 +20,41 @@ void Blockchain::writeClientNode(ClientNode* currentNode, string path) {
 	}
 	out << endl;
 
+	out.close();
+
 	if (currentNode->left != nullptr)
 		writeClientNode(currentNode->left, path);
 	if (currentNode->right != nullptr)
 		writeClientNode(currentNode->right, path);
 }
+void Blockchain::writeTransactionList(TransactionNode* currentNode, string path) {
+	ofstream out;
+	out.open(savefileClients, ios_base::app);
 
-Blockchain::Blockchain(string path) {
-	savefile = path;
+	if (currentNode != nullptr) {
+		Transaction* currentTransact = currentNode->data;
+		out << currentTransact->get_id() << 'i' << endl;
+		out << currentTransact->senderWalletId << 's' << endl;
+		out << currentTransact->recipientWalletId << 'r' << endl;
+		out << currentTransact->amount << 'a' << endl;
+		out << currentTransact->get_type() << 't' << endl;
+		out << currentTransact->commission << 'c' << endl;
+		out << endl;
+	}
+
+	out.close();
+
+	if (currentNode->next != nullptr)
+		writeTransactionList(currentNode->next, path);
+}
+
+
+Blockchain::Blockchain(string cpath, string tpath) {
+	savefileClients = cpath;
+	savefileTransactions = tpath;
 
 	ifstream in;
-	in.open(savefile);
+	in.open(savefileClients);
 	if (in.is_open()) {
 		string s = "";
 
@@ -139,9 +163,14 @@ void Blockchain::displayTransactions() {
 }
 Blockchain::~Blockchain() {
 	ofstream out;
-	out.open(savefile);
+	out.open(savefileClients);
 	if (out.is_open()) {
-		writeClientNode(clients.root, savefile);
+		writeClientNode(clients.root, savefileClients);
+	}
+	out.close();
+	out.open(savefileTransactions);
+	if (out.is_open()) {
+		writeTransactionList(transactions.head, savefileTransactions);
 	}
 	out.close();
 }
