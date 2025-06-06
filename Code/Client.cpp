@@ -8,6 +8,7 @@ using namespace std;
 Client::Client(string id, string name):
 	Entity(id) {
 	this->name = name;
+	this->type = CLIENTTYPE_NONE;
 }
 void Client::addWallet(Wallet* wallet) {
 	vWallets.push_back(wallet);
