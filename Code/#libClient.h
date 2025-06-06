@@ -31,5 +31,22 @@ public:
 	virtual string getBenefits() = 0;	// added, as every client type has this function
 	string get_id() { return id; };
 	string get_name() { return name; };
+	char get_type() {
+		switch (type)
+		{
+		case CLIENTTYPE_STANDARD:
+			return 's';
+			break;
+		case CLIENTTYPE_PLATINUM:
+			return 'p';
+			break;
+		case CLIENTTYPE_GOLD:
+			return 'g';
+			break;
+		default:
+			return 'n';
+			break;
+		}
+	}
 	~Client() { };
 };
