@@ -1,7 +1,7 @@
 all: main
 
-main: main.cpp Entity.cpp Wallet.cpp Client.cpp Transact.cpp TransactNode.cpp TransactList.cpp ClientBTS.cpp
-	g++ main.cpp Entity.cpp Wallet.cpp Client.cpp Transact.cpp TransactNode.cpp TransactList.cpp ClientBTS.cpp -o main 
+main: main.cpp Entity.cpp Wallet.cpp Client.cpp Transact.cpp TransactNode.cpp TransactList.cpp ClientBST.cpp Blockchain.cpp
+	g++ main.cpp Entity.cpp Wallet.cpp Client.cpp Transact.cpp TransactNode.cpp TransactList.cpp ClientBST.cpp Blockchain.cpp -o main 
 
 run: main
 	main.exe

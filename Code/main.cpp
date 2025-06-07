@@ -27,108 +27,87 @@ void TestClient(Client* p) {
 
 int main() {
 
-    ////PROVERKA ENTITY i ENTITYVEC
-
-    //EntityVec vect;
-
-
-    //takie operacii nevozmozshni dlya abstractnih classov!!!
-
-    // Entity* ent1 = new Entity("123");
-    // vect.addEntity(ent1);
-
-    // Entity* ent2 = new Entity("234");
-    // vect.addEntity(ent2);
-
-
-    // vect.getEntity("123");
-    // vect.getEntity("666");
-
-    // vect.getAllEntities(); //not print, but not error - good. navernoe dalshe prigoditsa
-
-    // vect.removeEntity("123"); 
-    // vect.removeEntity("555");
-
     //WALLET'S TESTS
 
-    // cout << "--------------------------------------------------------------------------" << endl;
+    cout << "--------------------------------------------------------------------------" << endl;
 
-    // Wallet zerowal("000000", 5000, "66666");
+    Wallet zerowal("000000", 5000, "66666");
 
-    // zerowal.withdraw(47777);
-    // zerowal.deposit(-90);
+    zerowal.withdraw(47777);
+    zerowal.deposit(-90);
 
-    // cout << "Balance of zerowal: " << zerowal.get_balance() << endl;
-    // zerowal.deposit(90); //correct
-    // zerowal.withdraw(81); //correct
-    // cout << "New balance of zerowal: " << zerowal.get_balance() << endl;
-    // cout << "ID of zerowal: " << zerowal.get_id() << endl;
+    cout << "Balance of zerowal: " << zerowal.get_balance() << endl;
+    zerowal.deposit(90); //correct
+    zerowal.withdraw(81); //correct
+    cout << "New balance of zerowal: " << zerowal.get_balance() << endl;
+    cout << "ID of zerowal: " << zerowal.get_id() << endl;
 
 
-    // cout << "--------------------------------------------------------------------------" << endl;
+    cout << "--------------------------------------------------------------------------" << endl;
     // // CLIENT'S TESTS
 
-    // StandardClient client("C100", "John Doe");
-    // cout << "1)Client created - ID: " << client.get_id() 
-    //      << ", Name: " << client.get_name() 
-    //      << ", Type: " << client.get_type() << endl;
+    StandardClient client("C100", "John Doe");
+    cout << "1)Client created - ID: " << client.get_id() 
+         << ", Name: " << client.get_name() 
+         << ", Type: " << client.get_type() << endl;
     
-    // Wallet wallet1("W001", 1000, "-");
-    // Wallet wallet2("W002", 2000, "-");
+    Wallet wallet1("W001", 1000, "-");
+    Wallet wallet2("W002", 2000, "-");
     
-    // client.addWallet(&wallet1);
-    // client.addWallet(&wallet2);
+    client.addWallet(&wallet1);
+    client.addWallet(&wallet2);
     
-    // cout << "2)Wallets added - Count: " << client.get_max_n_wallets() 
-    //      << ", Total balance: " << client.getTotalBalance() << endl;
+    cout << "2)Wallets added - Count: " << client.get_max_n_wallets() 
+         << ", Total balance: " << client.getTotalBalance() << endl;
     
-    // try {
-    //     Wallet* firstWallet = client.get_wallet_at(0);
-    //     cout << "3)First wallet - ID: " << firstWallet->get_id() 
-    //          << ", Balance: " << firstWallet->get_balance() << endl;
-    // } catch (const out_of_range& e) {
-    //     cout << "Error accessing wallet: " << e.what() << endl;
-    // }
+    try {
+        Wallet* firstWallet = client.get_wallet_at(0);
+        cout << "3)First wallet - ID: " << firstWallet->get_id() 
+             << ", Balance: " << firstWallet->get_balance() << endl;
+    } catch (const out_of_range& e) {
+        cout << "Error accessing wallet: " << e.what() << endl;
+    }
     
-    // GoldClient emptyClient("C101", "Empty");
-    // cout << "4)Empty client balance: " << emptyClient.getTotalBalance() << endl;
+    GoldClient emptyClient("C101", "Empty");
+    cout << "4)Empty client balance: " << emptyClient.getTotalBalance() << endl;
 
-    // cout<<"5)";
-    // StandardClient kiril("10002", "Kirl");
-    // TestClient(&kiril);
-    // PlatinumClient PL("10003", "Polly");
-    // TestClient(&PL);
-    // GoldClient carl("10001", "Carlinno");
-    // TestClient(&carl);
+    cout<<"5)";
+    StandardClient kiril("10002", "Kirl");
+    TestClient(&kiril);
+    PlatinumClient PL("10003", "Polly");
+    TestClient(&PL);
+    GoldClient carl("10001", "Carlinno");
+    TestClient(&carl);
 
-    //cout << "--------------------------------------------------------------------------" << endl;
+    cout << "--------------------------------------------------------------------------" << endl;
     //TRANSACTION'S TESTS
-    // Wallet unowal("100001", 6000, "77771");
-    // Wallet onewal("000001", 9000, "77777");
+    Wallet unowal("100001", 6000, "77771");
+    Wallet onewal("000001", 9000, "77777");
 
-    // Transaction* tr1 = new Transaction("tr_1", unowal.get_id(), onewal.get_id(), 560, TxType::TRANSFER, 56);
-    // // cout << "INFO ABOUT TRANSACTION: " << tr1->getDetails() << endl;
-
-
-    // cout << "--------------------------------------------------------------------------" << endl;
-    // //TRANSACTION_LIST'S TESTS
-    // TransactionList trsp1;
-
-    // Transaction* tr2 = new Transaction("tr_2", onewal.get_id(), onewal.get_id(), 600, TxType::DEPOSIT, 6);
-    // trsp1.addTransaction(tr1);
-    // trsp1.addTransaction(tr2);
-    // trsp1.displayTransactions();
-    // bool exist = trsp1.removeTransaction("tr_1");
-    // if (exist) {
-    //     cout << "\ntr1 deleted!\n";
-    // }
-    // else {
-    //     cout << "\ntr1 not defined!\n";
-    // }
-    // trsp1.displayTransactions();
+    Transaction* tr1 = new Transaction("tr_1", unowal.get_id(), onewal.get_id(), 560, TxType::TRANSFER, 56);
+    // cout << "INFO ABOUT TRANSACTION: " << tr1->getDetails() << endl;
 
 
-    // cout << "--------------------------------------------------------------------------" << endl;
+    cout << "--------------------------------------------------------------------------" << endl;
+    //TRANSACTION_LIST'S TESTS
+    TransactionList trsp1;
+
+    Transaction* tr2 = new Transaction("tr_2", onewal.get_id(), onewal.get_id(), 600, TxType::DEPOSIT, 6);
+    trsp1.addTransaction(tr1);
+    trsp1.addTransaction(tr2);
+    trsp1.displayTransactions();
+    bool exist = trsp1.removeTransaction("tr_1");
+    if (exist) {
+        cout << "\ntr1 deleted!\n";
+    }
+    else {
+        cout << "\ntr1 not defined!\n";
+    }
+    cout << "---------------------------------------------------"<<endl;
+    trsp1.displayTransactions();
+
+
+    cout << "--------------------------------------------------------------------------" << endl;
     // CLIENT TREE'S TESTS
 
     ClientBST cTree;
@@ -157,6 +136,7 @@ int main() {
 
     cout << "--------------------------------------------------------------------------" << endl;
     // ClientBST cTree;
+
     // GoldClient clients[17] = {
     //     {"10010", "A"},
     //     {"10018", "B"},
